@@ -3,123 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caderno de Exercícios</title>
+    <title>Caderno de Exercícios - Cyberpunk Claro</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
+        /* Variáveis de Cores */
+        :root {
+            --cor-primaria: #00FFFF; /* Ciano Neon */
+            --cor-secundaria: #FF69B4; /* Rosa Hot Pink */
+            --cor-fundo: #FFFFFF; /* Branco */
+            --cor-header: #F0F0F0; /* Cinza Muito Claro */
+            --cor-texto: #333333; /* Cinza Escuro */
+            --cor-acento: #8A2BE2; /* Azul Violeta */
+            --cor-botao-hover: #FF1493; /* Rosa Deep Pink */
+            --sombra: rgba(0, 0, 0, 0.1);
+            --sombra-card: rgba(0, 0, 0, 0.15);
+            --transicao: 0.3s;
+        }
+
+        /* Reset Básico */
+        *, *::before, *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            background: linear-gradient(to right, #ADD8E6, #FFFFFF, #ADD8E6);
-            color: #333;
         }
 
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            line-height: 1.6;
+        }
+
+        /* Header Fixo */
         header {
-            background-color: #343a40;
-            color: white;
-            text-align: center;
-            padding: 1em 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--cor-header);
+            padding: 15px 20px;
+            box-shadow: 0 2px 5px var(--sombra);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
         }
 
-        main {
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--cor-texto);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Conteúdo Principal */
+        .main-content {
+            margin-top: 80px; /* Espaço para o header fixo */
             padding: 20px;
             max-width: 1200px;
-            margin: 0 auto;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .introduction {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
+            background-color: var(--cor-header);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--sombra-card);
+            margin-bottom: 25px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        section.exercise {
-            background-color: #ffffff;
-            margin: 20px;
+        /* Padrão Geométrico de Fundo */
+        .introduction::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, var(--cor-primaria) 25%, transparent 25%) -50px 0,
+                        linear-gradient(-45deg, var(--cor-primaria) 25%, transparent 25%) -50px 0,
+                        linear-gradient(45deg, transparent 75%, var(--cor-secundaria) 75%),
+                        linear-gradient(-45deg, transparent 75%, var(--cor-secundaria) 75%);
+            background-size: 100px 100px;
+            animation: moveBackground 10s linear infinite;
+            opacity: 0.1;
+        }
+
+        @keyframes moveBackground {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .introduction p {
+            position: relative;
+            z-index: 1;
+            font-size: 1.1rem;
+            color: var(--cor-texto);
+        }
+
+        .exercises {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .exercise {
+            background-color: var(--cor-header);
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px var(--sombra-card);
             display: flex;
+            flex-direction: column;
             justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease-in-out;
+            transition: transform var(--transicao), box-shadow var(--transicao);
+            position: relative;
+            overflow: hidden;
         }
 
-        section.exercise:hover {
+        /* Efeito de Neon no Card */
+        .exercise::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            box-shadow: 0 0 10px var(--cor-primaria),
+                        0 0 20px var(--cor-primaria),
+                        0 0 30px var(--cor-secundaria),
+                        0 0 40px var(--cor-secundaria);
+            opacity: 0;
+            transition: opacity var(--transicao);
+            pointer-events: none;
+        }
+
+        .exercise:hover::before {
+            opacity: 1;
+        }
+
+        .exercise:hover {
             transform: translateY(-5px);
+            box-shadow: 0 4px 15px var(--sombra-card);
         }
 
-        section.exercise h2 {
-            margin: 0;
-            font-size: 1.2em;
-            color: #000000;
+        .exercise h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            color: var(--cor-texto);
         }
 
-        button {
-            background: linear-gradient(45deg, #3a3a3a, #2c2c2c, #1c1c1c);
-            color: white;
+        .exercise h2 .material-icons {
+            margin-right: 8px;
+            color: var(--cor-secundaria);
+        }
+
+        .exercise button {
+            background-color: var(--cor-primaria);
+            color: #FFFFFF;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 10px 15px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-size: 1em;
+            font-weight: 500;
+            transition: background-color var(--transicao), transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px var(--sombra);
         }
 
-        button:hover {
-            background: linear-gradient(45deg, #2c2c2c, #1c1c1c, #0c0c0c);
+        .exercise button .material-icons {
+            margin-left: 5px;
         }
 
-        .exercise-content {
-            display: none;
+        .exercise button:hover {
+            background-color: var(--cor-botao-hover);
+            transform: scale(1.05);
         }
 
-        @media screen and (max-width: 600px) {
-            main {
-                padding: 10px;
-            }
-
-            section.exercise, .introduction {
-                padding: 15px;
-            }
-
-            button {
-                padding: 8px 16px;
-            }
-
-            section.exercise {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            section.exercise button {
-                margin-top: 10px;
-                align-self: stretch;
-            }
-        }
-
-        @media screen and (min-width: 601px) {
-            main {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 20px;
+        /* Responsividade */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
             }
 
             .introduction {
-                grid-column: span 2;
+                padding: 20px;
             }
 
-            section.exercise {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                width: 90%; /* Ajuste a largura dos cards */
-                margin: 0 auto; /* Centralize os cards */
+            .exercise h2 {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .exercise button {
+                padding: 8px 12px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -128,50 +221,68 @@
     <header>
         <h1>Caderno de Exercícios</h1>
     </header>
-    <main>
+    <div class="main-content">
         <section class="introduction">
-            <p>Agora você pode testar seus conhecimentos! Abaixo tem uma lista de exercícios onde você pode navegar por cada tema, responder as questões e conferir suas respostas no final.</p>
+            <p>Agora você pode testar seus conhecimentos! Abaixo, há uma lista de exercícios onde você pode navegar por cada tema, responder às questões e conferir suas respostas no final.</p>
         </section>
 
-        <section class="exercise">
-            <h2>Sistema de Classificação Computacional</h2>
-            <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-sistemadeclassificacaocomputacional/', '_blank')">Acessar</button>
-        </section>
+        <section class="exercises">
+            <div class="exercise">
+                <h2><span class="material-icons">computer</span>Sistema de Classificação Computacional</h2>
+                <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-sistemadeclassificacaocomputacional/', '_blank')">
+                    Acessar <span class="material-icons">arrow_forward</span>
+                </button>
+            </div>
 
-        <section class="exercise">
-            <h2>Simbiose Homem-Máquina</h2>
-            <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-simbiosehomemmaquina/', '_blank')">Acessar</button>
-        </section>
+            <div class="exercise">
+                <h2><span class="material-icons">settings</span>Simbiose Homem-Máquina</h2>
+                <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-simbiosehomemmaquina/', '_blank')">
+                    Acessar <span class="material-icons">arrow_forward</span>
+                </button>
+            </div>
 
-        <section class="exercise">
-            <h2>Cloud, Fog e Edge Computing</h2>
-            <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-cloudfogedgecomputing/', '_blank')">Acessar</button>
-        </section>
+            <div class="exercise">
+                <h2><span class="material-icons">cloud</span>Cloud, Fog e Edge Computing</h2>
+                <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-cloudfogedgecomputing/', '_blank')">
+                    Acessar <span class="material-icons">arrow_forward</span>
+                </button>
+            </div>
 
-        <section class="exercise">
-            <h2>Computação Quântica</h2>
-            <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-computacaoquantica/', '_blank')">Acessar</button>
-        </section>
+            <div class="exercise">
+                <h2><span class="material-icons">blur_on</span>Computação Quântica</h2>
+                <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-computacaoquantica/', '_blank')">
+                    Acessar <span class="material-icons">arrow_forward</span>
+                </button>
+            </div>
 
-        <section class="exercise">
-            <h2>Perigos Reais da Inteligência Artificial</h2>
-            <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-perigosreaisdainteligenciaartificial/', '_blank')">Acessar</button>
-        </section>
+            <div class="exercise">
+                <h2><span class="material-icons">warning</span>Perigos Reais da Inteligência Artificial</h2>
+                <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-perigosreaisdainteligenciaartificial/', '_blank')">
+                    Acessar <span class="material-icons">arrow_forward</span>
+                </button>
+            </div>
 
-        <section class="exercise">
-            <h2>Empatia Artificial</h2>
-            <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-empatiaartificial/', '_blank')">Acessar</button>
-        </section>
+            <div class="exercise">
+                <h2><span class="material-icons">sentiment_satisfied</span>Empatia Artificial</h2>
+                <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-empatiaartificial/', '_blank')">
+                    Acessar <span class="material-icons">arrow_forward</span>
+                </button>
+            </div>
 
-        <section class="exercise">
-            <h2>Quinta Revolução Industrial</h2>
-            <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-quintarevolucaoindustrial/', '_blank')">Acessar</button>
-        </section>
+            <div class="exercise">
+                <h2><span class="material-icons">factory</span>Quinta Revolução Industrial</h2>
+                <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-quintarevolucaoindustrial/', '_blank')">
+                    Acessar <span class="material-icons">arrow_forward</span>
+                </button>
+            </div>
 
-        <section class="exercise">
-            <h2>Correntes Filosóficas da Tecnologia</h2>
-            <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-correntesfilosoficasdatecnologia/', '_blank')">Acessar</button>
+            <div class="exercise">
+                <h2><span class="material-icons">psychology</span>Correntes Filosóficas da Tecnologia</h2>
+                <button onclick="window.open('https://ravellsl.github.io/lista-de-exercicios-correntesfilosoficasdatecnologia/', '_blank')">
+                    Acessar <span class="material-icons">arrow_forward</span>
+                </button>
+            </div>
         </section>
-    </main>
+    </div>
 </body>
 </html>
